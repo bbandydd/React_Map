@@ -1,13 +1,13 @@
 import React from 'react'
 import GoogleMap from 'google-map-react'
 
-import Mark from './Mark'
+import Marker from './Marker'
 
-const Map = ({center, zoom, marks}) => {
+const Map = ({center, zoom, markers}) => {
     return (
         <GoogleMap defaultCenter={center} defaultZoom={zoom}>
             {
-                marks.map((mark, idx) => <Mark {...mark.position} text={mark.text} index={idx+1}/>)
+                markers.map((marker, idx) => <Marker key={`marker_${idx}`} {...marker.position} text={marker.text} photo={marker.photo} index={idx+1}/>)
             }
         </GoogleMap>
     )
