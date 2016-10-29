@@ -1,10 +1,9 @@
-// import { createStore, combineReducers, applyMiddleware } from 'redux';
-// import thunk from 'redux-thunk';
-// import todos from '../reducers/todoReducer';
-// import filters from '../reducers/filterReducer';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import markers from '../reducers/markerReducer';
 
-// const Reducers = combineReducers({
-//     todos, filters
-// });
+const Reducers = combineReducers({
+    markers
+});
 
-// export default applyMiddleware(thunk)(createStore)(Reducers, window.devToolsExtension ? window.devToolsExtension() : undefined);
+export default applyMiddleware(thunk)(createStore)(Reducers, window.devToolsExtension ? window.devToolsExtension() : undefined);

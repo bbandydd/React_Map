@@ -5,7 +5,7 @@ import Marker from './Marker'
 
 const Map = ({center, zoom, markers}) => {
     return (
-        <GoogleMap defaultCenter={center} defaultZoom={zoom}>
+        <GoogleMap center={center} zoom={zoom}>
             {
                 markers.map((marker, idx) => <Marker key={`marker_${idx}`} {...marker.position} text={marker.text} photo={marker.photo} index={idx+1}/>)
             }
