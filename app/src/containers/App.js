@@ -4,11 +4,13 @@ import { bindActionCreators } from 'redux'
 import * as markerAction from '../actions/markerAction'
 
 import Map from '../components/Map'
+import MarkerList from '../components/MarkerList'
 
 class App extends Component {
     constructor(props) {
         super(props)
         this.addMarker = this.addMarker.bind(this)
+        this.setMapCenter = this.setMapCenter.bind(this)
 
         // 預設台北101
         this.state = {
@@ -25,20 +27,15 @@ class App extends Component {
         if (navigator.geolocation) {
             // 設定目前位置
             navigator.geolocation.getCurrentPosition((position) => {
-                const coord = {lat: position.coords.latitude, lng: position.coords.longitude}
+                const location = {lat: position.coords.latitude, lng: position.coords.longitude}
 
                 markerAction.addMarker({
-                    position: coord,
+                    position: location,
                     text: '我在這',
                     photo: 'https://goo.gl/E3vjFQ'
                 })
 
-                this.setState({
-                    init: {
-                        center: coord,
-                        zoom: 13
-                    }
-                })
+                this.setMapCenter(location)
             })
         }
     }
@@ -46,10 +43,12 @@ class App extends Component {
     render() {
         const { dispatch, markers} = this.props
 
+        // 加入使用者列表
         return (
             <div id="app">
                 <button onClick={this.addMarker.bind(this)}>加入高雄點</button>
                 <Map center={ this.state.init.center } zoom={ this.state.init.zoom } markers={ markers } />
+                <MarkerList markers={ markers } setMapCenter={ this.setMapCenter }/>
             </div>
         )
     }
@@ -75,7 +74,15 @@ class App extends Component {
         markers.map((marker, idx) => {
             markerAction.addMarker(marker)
         })   
-        
+    }
+
+    setMapCenter(location) {
+        this.setState({
+            init: {
+                center: location,
+                zoom: 13
+            }
+        })
     }
 }
 
