@@ -38,6 +38,8 @@ const style = {
     }
 }
 
+const zoom = 12
+
 class App extends Component {
     constructor(props) {
         super(props)
@@ -48,7 +50,7 @@ class App extends Component {
         this.state = {
             init: {
                 center: { lat: 25.0339031, lng: 121.5623212 },
-                zoom: 13
+                zoom: zoom
             }
         }
     }
@@ -115,7 +117,7 @@ class App extends Component {
         this.setState({
             init: {
                 center: location,
-                zoom: 13
+                zoom: zoom
             }
         })
     }
