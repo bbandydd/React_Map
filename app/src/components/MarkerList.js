@@ -6,7 +6,8 @@ const style = {
     mapList: {
         overflow: 'auto',
         backgroundColor: '#2d2b2b',
-        height: '90%'
+        height: '100%',
+        width: '100%'
     },
     listItem: {
         color: '#dad7d7',

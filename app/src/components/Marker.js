@@ -11,6 +11,7 @@ const Marker = ({text, photo, index}) => {
         <Avatar
             src={photo}
             size={40}
+            title={text}
             style={style}
             onClick={() => alert(text)}
         />

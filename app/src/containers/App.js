@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as markerAction from '../actions/markerAction'
-import RaisedButton from 'material-ui/RaisedButton';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 
 import Map from '../components/Map'
 import MarkerList from '../components/MarkerList'
@@ -34,10 +35,19 @@ const style = {
         position: 'absolute', 
         right: 0, 
         top: 0, 
-        width: '20%', 
+        width: '30%', 
         height: '100%',
         opacity: 0.9,
         zIndex: 1
+    },
+    functionButton: {
+        position: 'absolute', 
+        right: '30%', 
+        top: 0, 
+        width: '3%', 
+        height: '100%',
+        zIndex: 1,
+        textAlign: 'center'
     }
 }
 
@@ -69,7 +79,7 @@ class App extends Component {
                 markerAction.addMarker({
                     position: location,
                     text: '我在這',
-                    photo: 'https://goo.gl/E3vjFQ'
+                    photo: 'https://goo.gl/IBEpr8'
                 })
 
                 this.setMapCenter(location)
@@ -86,9 +96,13 @@ class App extends Component {
                     <Map center={this.state.init.center} zoom={this.state.init.zoom} markers={markers} />
                 </div>
                 <div style={style.list}>
-                    <RaisedButton label="加入高雄點" primary={true} onClick={this.addMarker.bind(this)}/>
                     <MarkerList markers={markers} setMapCenter={this.setMapCenter} />
                 </div> 
+                <div style={style.functionButton}>
+                    <FloatingActionButton mini={true} onClick={this.addMarker.bind(this)}>
+                        <ContentAdd />
+                    </FloatingActionButton>
+                </div>
             </div>
         )
     }
