@@ -22,19 +22,22 @@ const style = {
         position: 'relative', 
         overflow: 'hidden'
     },
-    leftContent: {
+    content: {
         position: 'absolute', 
         left: 0, 
         top: 0, 
-        width: '80%', 
-        height: '100%'
+        width: '100%', 
+        height: '100%',
+        zIndex: 0
     },
-    rightContent: {
+    list: {
         position: 'absolute', 
         right: 0, 
         top: 0, 
         width: '20%', 
-        height: '100%'
+        height: '100%',
+        opacity: 0.9,
+        zIndex: 1
     }
 }
 
@@ -79,10 +82,10 @@ class App extends Component {
 
         return (
             <div style={style.container}>
-                <div style={style.leftContent}>
+                <div style={style.content}>
                     <Map center={this.state.init.center} zoom={this.state.init.zoom} markers={markers} />
                 </div>
-                <div style={style.rightContent}>
+                <div style={style.list}>
                     <RaisedButton label="加入高雄點" primary={true} onClick={this.addMarker.bind(this)}/>
                     <MarkerList markers={markers} setMapCenter={this.setMapCenter} />
                 </div> 
