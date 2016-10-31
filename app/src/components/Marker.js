@@ -1,24 +1,19 @@
 import React from 'react'
+import Avatar from 'material-ui/Avatar';
 
-const K_WIDTH = 40;
-const K_HEIGHT = 40;
-
-const greatPlaceStyle = (photo) => {
-    return {
-        position: 'absolute',
-        width: K_WIDTH,
-        height: K_HEIGHT,
-        border: '2px solid red',
-        borderRadius: K_HEIGHT,
-        backgroundImage: `url(${photo})`,
-        backgroundSize: `${K_WIDTH}px ${K_HEIGHT}px`
-    }
-};
+const style = {
+    border: '2px solid #2d2b2b',
+    cursor: 'pointer'
+}
 
 const Marker = ({text, photo, index}) => {
     return (
-        <div style={greatPlaceStyle(photo)} title={text} onClick={() => alert(text)}>
-        </div>
+        <Avatar
+            src={photo}
+            size={40}
+            style={style}
+            onClick={() => alert(text)}
+        />
     )
 }
 

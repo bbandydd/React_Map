@@ -6,6 +6,13 @@ import * as markerAction from '../actions/markerAction'
 import Map from '../components/Map'
 import MarkerList from '../components/MarkerList'
 
+/* 
+    Todos:
+    1. FB Login
+    2. Chat Room
+    3. Firebase
+*/
+
 class App extends Component {
     constructor(props) {
         super(props)
@@ -15,7 +22,7 @@ class App extends Component {
         // 預設台北101
         this.state = {
             init: {
-                center: {lat: 25.0339031, lng: 121.5623212},
+                center: { lat: 25.0339031, lng: 121.5623212 },
                 zoom: 13
             }
         }
@@ -27,7 +34,7 @@ class App extends Component {
         if (navigator.geolocation) {
             // 設定目前位置
             navigator.geolocation.getCurrentPosition((position) => {
-                const location = {lat: position.coords.latitude, lng: position.coords.longitude}
+                const location = { lat: position.coords.latitude, lng: position.coords.longitude }
 
                 markerAction.addMarker({
                     position: location,
@@ -43,12 +50,11 @@ class App extends Component {
     render() {
         const { dispatch, markers} = this.props
 
-        // 加入使用者列表
         return (
             <div id="app">
-                <button onClick={this.addMarker.bind(this)}>加入高雄點</button>
-                <Map center={ this.state.init.center } zoom={ this.state.init.zoom } markers={ markers } />
-                <MarkerList markers={ markers } setMapCenter={ this.setMapCenter }/>
+                <Map center={this.state.init.center} zoom={this.state.init.zoom} markers={markers} />
+                <MarkerList markers={markers} setMapCenter={this.setMapCenter} />
+                <button style={{display: 'none'}} onClick={this.addMarker.bind(this)}>加入高雄點</button>
             </div>
         )
     }
@@ -57,15 +63,15 @@ class App extends Component {
         const { markerAction } = this.props
         const markers = [
             {
-                position: {lat: 22.6246197, lng: 120.28278},
+                position: { lat: 22.6246197, lng: 120.28278 },
                 text: '鹽埕埔2號出口',
                 photo: 'https://goo.gl/q2d8HC'
             }, {
-                position: {lat: 22.6233427, lng: 120.2867754},
+                position: { lat: 22.6233427, lng: 120.2867754 },
                 text: '樺達奶茶',
                 photo: 'https://goo.gl/dsS35b'
             }, {
-                position: {lat: 22.6261609, lng: 120.2718653},
+                position: { lat: 22.6261609, lng: 120.2718653 },
                 text: '忠烈祠',
                 photo: 'https://goo.gl/v4I9dl'
             }
@@ -73,7 +79,7 @@ class App extends Component {
 
         markers.map((marker, idx) => {
             markerAction.addMarker(marker)
-        })   
+        })
     }
 
     setMapCenter(location) {
