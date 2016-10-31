@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as markerAction from '../actions/markerAction'
+import RaisedButton from 'material-ui/RaisedButton';
 
 import Map from '../components/Map'
 import MarkerList from '../components/MarkerList'
@@ -12,6 +13,30 @@ import MarkerList from '../components/MarkerList'
     2. Chat Room
     3. Firebase
 */
+
+const style = {
+    container: {
+        width: '100%',
+        height: '100%',
+        backgroundColor: '#2d2b2b',
+        position: 'relative', 
+        overflow: 'hidden'
+    },
+    leftContent: {
+        position: 'absolute', 
+        left: 0, 
+        top: 0, 
+        width: '80%', 
+        height: '100%'
+    },
+    rightContent: {
+        position: 'absolute', 
+        right: 0, 
+        top: 0, 
+        width: '20%', 
+        height: '100%'
+    }
+}
 
 class App extends Component {
     constructor(props) {
@@ -51,10 +76,14 @@ class App extends Component {
         const { dispatch, markers} = this.props
 
         return (
-            <div id="app">
-                <Map center={this.state.init.center} zoom={this.state.init.zoom} markers={markers} />
-                <MarkerList markers={markers} setMapCenter={this.setMapCenter} />
-                <button style={{display: 'none'}} onClick={this.addMarker.bind(this)}>加入高雄點</button>
+            <div style={style.container}>
+                <div style={style.leftContent}>
+                    <Map center={this.state.init.center} zoom={this.state.init.zoom} markers={markers} />
+                </div>
+                <div style={style.rightContent}>
+                    <RaisedButton label="加入高雄點" primary={true} onClick={this.addMarker.bind(this)}/>
+                    <MarkerList markers={markers} setMapCenter={this.setMapCenter} />
+                </div> 
             </div>
         )
     }

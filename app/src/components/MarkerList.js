@@ -4,9 +4,9 @@ import {List, ListItem} from 'material-ui/List'
 
 const style = {
     mapList: {
-        height: '98%',
         overflow: 'auto',
-        backgroundColor: '#2d2b2b'
+        backgroundColor: '#2d2b2b',
+        height: '90%'
     },
     listItem: {
         color: '#dad7d7',

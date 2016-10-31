@@ -41,6 +41,14 @@ const initState = [
         position: {lat: 22.6688619, lng: 120.4837692},
         text: '屏東車站',
         photo: 'https://goo.gl/aqM65s'
+    }, {
+        position: {lat: 22.7930213, lng: 121.1205129},
+        text: '台東車站',
+        photo: 'https://goo.gl/rx0mh6'
+    }, {
+        position: {lat: 23.9933334, lng: 121.5988503},
+        text: '花蓮車站',
+        photo: 'https://goo.gl/jhOhHW'
     }
 ];
 
