@@ -61,10 +61,10 @@ const markerReducer = (state=initState, action) => {
             ]
         case types.SET_LOCATION:
             const index = state.findIndex((obj) => obj.userId == action.userId)
-            debugger
+            
             return [
                 ...state.slice(0, index),
-                {...state[index], position: action.location},
+                { ...state[index], position: action.location },
                 ...state.slice(index+1)
             ]
         default:

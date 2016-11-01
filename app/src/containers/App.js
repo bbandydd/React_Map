@@ -8,13 +8,6 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import Map from '../components/Map'
 import MarkerList from '../components/MarkerList'
 
-/* 
-    Todos:
-    1. FB Login
-    2. Chat Room
-    3. Firebase
-*/
-
 const style = {
     container: {
         width: '100%',
@@ -69,16 +62,16 @@ class App extends Component {
     }
 
     componentDidMount() {
-        const { markerAction, markers } = this.props
+        const that = this
 
         if (navigator.geolocation) {
-
             // 設定目前位置
             navigator.geolocation.watchPosition((position) => {
+                const { markerAction, markers } = that.props
                 const location = { lat: position.coords.latitude, lng: position.coords.longitude }
 
                 let myLocation = markers.filter(x=>x.userId == 'andy')[0]
-
+                
                 if (myLocation) {
                     markerAction.setLocation('andy', location)
                 } else {
