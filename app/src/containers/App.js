@@ -35,14 +35,14 @@ const style = {
         position: 'absolute', 
         right: 0, 
         top: 0, 
-        width: '30%', 
+        width: '20%', 
         height: '100%',
         opacity: 0.9,
         zIndex: 1
     },
     functionButton: {
         position: 'absolute', 
-        right: '30%', 
+        right: '22%', 
         top: 0, 
         width: '3%', 
         height: '100%',
@@ -69,20 +69,29 @@ class App extends Component {
     }
 
     componentDidMount() {
-        const { markerAction } = this.props
+        const { markerAction, markers } = this.props
 
         if (navigator.geolocation) {
+
             // 設定目前位置
-            navigator.geolocation.getCurrentPosition((position) => {
+            navigator.geolocation.watchPosition((position) => {
                 const location = { lat: position.coords.latitude, lng: position.coords.longitude }
 
-                markerAction.addMarker({
-                    position: location,
-                    text: '我在這',
-                    photo: 'https://goo.gl/IBEpr8'
-                })
+                let myLocation = markers.filter(x=>x.userId == 'andy')[0]
 
-                this.setMapCenter(location)
+                if (myLocation) {
+                    markerAction.setLocation('andy', location)
+                } else {
+                    markerAction.addMarker({
+                        position: location,
+                        text: '我在這',
+                        photo: 'https://goo.gl/IBEpr8',
+                        userId: 'andy'
+                    })
+
+                    this.setMapCenter(location)
+                }
+                
             })
         }
     }

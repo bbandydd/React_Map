@@ -6,3 +6,11 @@ export function addMarker(marker) {
         marker
     }
 }
+
+export function setLocation(userId, location) {
+    return {
+        type: types.SET_LOCATION,
+        userId,
+        location
+    }
+}
