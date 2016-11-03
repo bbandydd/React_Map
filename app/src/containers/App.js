@@ -7,6 +7,7 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 
 import Map from '../components/Map'
 import MarkerList from '../components/MarkerList'
+import FBLogin from '../components/FBLogin'
 
 const style = {
     container: {
@@ -41,6 +42,12 @@ const style = {
         height: '100%',
         zIndex: 1,
         textAlign: 'center'
+    },
+    login: {
+        position: 'absolute', 
+        left: 0, 
+        top: 0,
+        zIndex: 1
     }
 }
 
@@ -57,35 +64,10 @@ class App extends Component {
             init: {
                 center: { lat: 25.0339031, lng: 121.5623212 },
                 zoom: zoom
-            }
-        }
-    }
-
-    componentDidMount() {
-        const that = this
-
-        if (navigator.geolocation) {
-            // 設定目前位置
-            navigator.geolocation.watchPosition((position) => {
-                const { markerAction, markers } = that.props
-                const location = { lat: position.coords.latitude, lng: position.coords.longitude }
-
-                let myLocation = markers.filter(x=>x.userId == 'andy')[0]
-                
-                if (myLocation) {
-                    markerAction.setLocation('andy', location)
-                } else {
-                    markerAction.addMarker({
-                        position: location,
-                        text: '我在這',
-                        photo: 'https://goo.gl/IBEpr8',
-                        userId: 'andy'
-                    })
-
-                    this.setMapCenter(location)
-                }
-                
-            })
+            },
+            isLogin: false,
+            watchId: 0,
+            userData: {}
         }
     }
 
@@ -104,6 +86,13 @@ class App extends Component {
                     <FloatingActionButton mini={true} onClick={this.addMarker.bind(this)}>
                         <ContentAdd />
                     </FloatingActionButton>
+                </div>
+                <div style={style.login}>
+                    <FBLogin 
+                        isLogin={this.state.isLogin} 
+                        login={this.login.bind(this)}
+                        logout={this.logout.bind(this)}
+                    />
                 </div>
             </div>
         )
@@ -138,6 +127,63 @@ class App extends Component {
                 center: location,
                 zoom: zoom
             }
+        })
+    }
+
+    watchPosition(userData) {
+        const that = this
+
+        if (navigator.geolocation) {
+            // 設定目前位置
+            const watchId = navigator.geolocation.watchPosition((position) => {
+                debugger
+                const { markerAction, markers } = that.props
+                const location = { lat: position.coords.latitude, lng: position.coords.longitude }
+
+                let myLocation = markers.filter(x=>x.userId == 'andy')[0]
+                
+                if (myLocation) {
+                    markerAction.setLocation('andy', location)
+                } else {
+                    markerAction.addMarker({
+                        position: location,
+                        text: userData.text,
+                        photo: userData.photo,
+                        userId: userData.userId
+                    })
+
+                    this.setMapCenter(location)
+                }         
+            })
+            
+            this.setState({ watchId })
+        }   
+    }
+
+    login(response) {
+        if (response.status) return;
+
+        const userData = {
+            text: response.name,
+            photo: response.picture.data.url,
+            userId: response.id
+        }
+
+        this.watchPosition(userData)
+        this.setState({
+            isLogin: true,
+            userData
+        })
+    }
+
+    logout() {
+        const { markerAction } = this.props
+        markerAction.removeMarker(this.state.userData.userId)
+        navigator.geolocation.clearWatch(this.state.watchId);
+
+        FB.logout()
+        this.setState({
+            isLogin: false
         })
     }
 }
