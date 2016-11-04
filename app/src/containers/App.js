@@ -7,7 +7,7 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 
 import Map from '../components/Map'
 import MarkerList from '../components/MarkerList'
-import FBLogin from '../components/FBLogin'
+import Login from '../components/Login'
 
 const style = {
     container: {
@@ -88,9 +88,9 @@ class App extends Component {
                     </FloatingActionButton>
                 </div>
                 <div style={style.login}>
-                    <FBLogin 
+                    <Login 
                         isLogin={this.state.isLogin} 
-                        login={this.login.bind(this)}
+                        fbLogin={this.fbLogin.bind(this)}
                         logout={this.logout.bind(this)}
                     />
                 </div>
@@ -136,20 +136,18 @@ class App extends Component {
         if (navigator.geolocation) {
             // 設定目前位置
             const watchId = navigator.geolocation.watchPosition((position) => {
-                debugger
+
                 const { markerAction, markers } = that.props
                 const location = { lat: position.coords.latitude, lng: position.coords.longitude }
-
-                let myLocation = markers.filter(x=>x.userId == 'andy')[0]
+                
+                let myLocation = markers.filter(x=>x.userId == userData.userId)[0]
                 
                 if (myLocation) {
-                    markerAction.setLocation('andy', location)
+                    markerAction.setLocation(userData.userId, location)
                 } else {
                     markerAction.addMarker({
                         position: location,
-                        text: userData.text,
-                        photo: userData.photo,
-                        userId: userData.userId
+                        ...userData
                     })
 
                     this.setMapCenter(location)
@@ -160,13 +158,29 @@ class App extends Component {
         }   
     }
 
-    login(response) {
+    fbLogin(response) {
         if (response.status) return;
 
         const userData = {
             text: response.name,
             photo: response.picture.data.url,
-            userId: response.id
+            userId: response.id,
+            role: 'FB'
+        }
+
+        this.watchPosition(userData)
+        this.setState({
+            isLogin: true,
+            userData
+        })
+    }
+
+    guestLogin() {
+        const userData = {
+            text: '訪客',
+            photo: 'https://goo.gl/6dcw3S',
+            userId: new Date().getTime(),
+            role: 'GUEST'
         }
 
         this.watchPosition(userData)
@@ -178,10 +192,15 @@ class App extends Component {
 
     logout() {
         const { markerAction } = this.props
-        markerAction.removeMarker(this.state.userData.userId)
-        navigator.geolocation.clearWatch(this.state.watchId);
+        const {userData, watchId} = this.state
 
-        FB.logout()
+        markerAction.removeMarker(userData.userId)
+        navigator.geolocation.clearWatch(watchId);
+
+        if (userData.role == 'FB') {
+            FB.logout()
+        }
+
         this.setState({
             isLogin: false
         })
