@@ -91,6 +91,7 @@ class App extends Component {
                     <Login 
                         isLogin={this.state.isLogin} 
                         fbLogin={this.fbLogin.bind(this)}
+                        guestLogin={this.guestLogin.bind(this)}
                         logout={this.logout.bind(this)}
                     />
                 </div>
